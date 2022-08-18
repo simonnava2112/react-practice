@@ -1,5 +1,5 @@
 import React from 'react'
-import {nanoid} from 'nanoid';
+import { nanoid } from 'https://cdn.jsdelivr.net/npm/nanoid/nanoid.js'
 
 const Fetch = () => {
     const [fundador, setFundador] = React.useState('');
@@ -26,25 +26,21 @@ const Fetch = () => {
             { id: nanoid(10), nombreFundador: fundador, monto: monto},
         ])
 
-        setArrayContribuyente([
-            ...arrayContribuyente,
-            { id: nanoid(10), nombre: contribuyente }
-        ])
-
         setFundador('');
         setError(null);
     }
 
-
-
-
-
-
-
-
+    const agregarContribuyente = e => {
+        e.preventDefault()
+        setArrayContribuyente([
+            ...arrayContribuyente,
+            { id: nanoid(10), nombre: contribuyente }
+        ])
+        setContribuyente('');
+    }
     return (
         <div classNameName="container-ml m-5 text-center">
-
+            <h2>Agregar Fundador/es</h2>
             <form className="row " onSubmit={agregarfundador}>
                 
                 <div className="col-auto">
@@ -70,6 +66,10 @@ const Fetch = () => {
                 <div className="col-auto">
                     <button type="submit" className="btn btn-primary mb-3">Add</button>
                 </div>
+
+            </form>
+            <h2>Agregar Contribuyente/es</h2>
+            <form onSubmit= {agregarContribuyente} className="row">
                 <div className="col-auto">
                     <input 
                         type="text" 
@@ -80,11 +80,10 @@ const Fetch = () => {
                         value={contribuyente}
                     />
                 </div>
-
+                <div className="col-auto">
+                    <button type="submit" className="btn btn-primary mb-3">Add</button>
+                </div>
             </form>
-
-
-
 
             <div className="row">
                 <div className="col">
@@ -112,6 +111,9 @@ const Fetch = () => {
                             arrayContribuyente.map(item => (
                                 <li className="list-group-item" key={item.id}>
                                     <span className="lead">Fundador:{item.nombre}</span>
+                                    <h5>Contribucion:{
+                                        addFundadores.map((ticket) => Number(ticket.monto)).reduce((a, b) => a + b, 0)/arrayContribuyente.length
+                                    }</h5>
                                 </li>
                             ))
                             
@@ -123,4 +125,4 @@ const Fetch = () => {
     )
 }
 
-export default Fetch
+export default Fetch;
