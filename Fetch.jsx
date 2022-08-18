@@ -1,6 +1,7 @@
 import React from 'react'
 import { nanoid } from 'https://cdn.jsdelivr.net/npm/nanoid/nanoid.js'
 
+
 const Fetch = () => {
     const [fundador, setFundador] = React.useState('');
     const [contribuyente, setContribuyente] = React.useState('')
@@ -23,7 +24,7 @@ const Fetch = () => {
 
         setAddFundadores([
             ...addFundadores, 
-            { id: nanoid(10), nombreFundador: fundador, monto: monto},
+            { id: nanoid(10), nombreFundador: fundador, monto: monto, },
         ])
 
         setFundador('');
@@ -87,12 +88,20 @@ const Fetch = () => {
 
             <div className="row">
                 <div className="col">
-                    FUNDADOR
+                    <h4>Fundadores</h4>
                     <ul className="list-group ">
                         {
                             addFundadores.map(item => (
-                                <li className="list-group-item" key={item.id}>
-                                    <span className="lead">Fundador:{item.nombreFundador} Monto:{item.monto}</span>
+                                <li className="list-group-item d-flex justify-content-between align-items-center" key={item.id}>
+                                    <h6>{item.nombreFundador}</h6>
+                                    
+                                    <span className="lead d-flex justify-content-center g-4"> 
+                                    <span className="badge bg-success rounded-pill align-items-center">
+                                    {
+                                        addFundadores.map((ticket) => Number(ticket.monto)).reduce((a, b) => a + b, 0)/(arrayContribuyente.length + addFundadores.length)
+                                    }
+                                    </span>
+                                    $ {item.monto}</span>
                                 </li>
                             ))
                             
@@ -106,18 +115,24 @@ const Fetch = () => {
                     </div>
                 </div>
                 <div className="col">
-                    Contribuyente
+                    <h4>Contribuyentes</h4>
+                    <ul className='list-group'>
                     {
                             arrayContribuyente.map(item => (
-                                <li className="list-group-item" key={item.id}>
-                                    <span className="lead">Fundador:{item.nombre}</span>
-                                    <h5>Contribucion:{
-                                        addFundadores.map((ticket) => Number(ticket.monto)).reduce((a, b) => a + b, 0)/arrayContribuyente.length
-                                    }</h5>
+                                <li className="list-group-item d-flex justify-content-between align-items-center" key={item.id}>
+                                    {item.nombre}
+                                    <span className="badge bg-success rounded-pill">  
+                                        {
+                                        addFundadores.map((ticket) => Number(ticket.monto)).reduce((a, b) => a + b, 0)/(arrayContribuyente.length + addFundadores.length)
+                                    }
+                                    </span>
+                                    
                                 </li>
                             ))
                             
                         }
+
+                    </ul>
                 </div>
             </div>
             
