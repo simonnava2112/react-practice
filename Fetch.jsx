@@ -8,6 +8,7 @@ const Fetch = () => {
     const [arrayContribuyente, setArrayContribuyente] = React.useState([])
     const [addFundadores, setAddFundadores] = React.useState([]);
     const [monto, setMonto] = React.useState(0);
+    const [id, setId] = React.useState(0);
     
     const [error, setError] = React.useState(null);
 
@@ -39,10 +40,20 @@ const Fetch = () => {
         ])
         setContribuyente('');
     }
+
+    const editar = e => {
+        e.preventDefault()
+        const newArray = addFundadores.map(item => item.id === id ? {id, monto: monto} : item)
+        setMonto(0)
+        setId(0)
+        setAddFundadores(newArray)
+
+    }
+
     return (
         <div classNameName="container-ml m-5 text-center">
-            <h2>Agregar Fundador/es</h2>
-            <form className="row " onSubmit={agregarfundador}>
+            <h2 className="text-danger">Agregar Fundador</h2>
+            <form className="row " onSubmit={agregarfundador || editar}>
                 
                 <div className="col-auto">
                     <input 
@@ -69,7 +80,7 @@ const Fetch = () => {
                 </div>
 
             </form>
-            <h2>Agregar Contribuyente/es</h2>
+            <h2 className="text-danger">Agregar Contribuyente</h2>
             <form onSubmit= {agregarContribuyente} className="row">
                 <div className="col-auto">
                     <input 
@@ -87,13 +98,12 @@ const Fetch = () => {
             </form>
 
             <div className="row">
-                <div className="col">
-                    <h4>Fundadores</h4>
-                    <ul className="list-group ">
+                <div className="col-3">
+                    <h4 className="text-danger">Fundadores</h4>
                         {
                             addFundadores.map(item => (
-                                <li className="list-group-item d-flex justify-content-between align-items-center" key={item.id}>
-                                    <h6>{item.nombreFundador}</h6>
+                                <h5 className="d-flex justify-content-between align-items-center text-light" key={item.id}>
+                                    {item.nombreFundador}
                                     
                                     <span className="lead d-flex justify-content-center g-4"> 
                                     <span className="badge bg-success rounded-pill align-items-center">
@@ -101,25 +111,26 @@ const Fetch = () => {
                                         addFundadores.map((ticket) => Number(ticket.monto)).reduce((a, b) => a + b, 0)/(arrayContribuyente.length + addFundadores.length)
                                     }
                                     </span>
+                                    <span className="badge bg-danger rounded-pill align-items-center" onClick={() => editar(item)}>Edit</span>
                                     $ {item.monto}</span>
-                                </li>
+                                </h5>
                             ))
                             
                         }
-                    </ul>
+                    
                     <div className='container'>
                             
-                                <h6>Totales:{ addFundadores.map((ticket) => Number(ticket.monto)) .reduce((a, b) => a + b, 0)}</h6>
+                                <h6 className="text-warning">Totales:{ addFundadores.map((ticket) => Number(ticket.monto)) .reduce((a, b) => a + b, 0)}</h6>
                         
 
                     </div>
                 </div>
-                <div className="col">
-                    <h4>Contribuyentes</h4>
-                    <ul className='list-group'>
+                <div className="col-6"></div>
+                <div className="col-3">
+                    <h4 className="text-danger">Contribuyentes</h4>
                     {
                             arrayContribuyente.map(item => (
-                                <li className="list-group-item d-flex justify-content-between align-items-center" key={item.id}>
+                                <h5 className="d-flex justify-content-between align-items-center text-light" key={item.id}>
                                     {item.nombre}
                                     <span className="badge bg-success rounded-pill">  
                                         {
@@ -127,12 +138,10 @@ const Fetch = () => {
                                     }
                                     </span>
                                     
-                                </li>
+                                </h5>
                             ))
                             
                         }
-
-                    </ul>
                 </div>
             </div>
             
